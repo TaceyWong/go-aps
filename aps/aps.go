@@ -56,6 +56,9 @@ type Job struct {
 
 	// 函数和参数之间的映射存储
 	fparams map[string]([]interface{})
+
+	// 函数剩余次数
+	frequency int //-1表示无限
 }
 
 // 创建时间间隔型任务.
@@ -68,6 +71,7 @@ func NewJob(intervel uint64) *Job {
 		time.Sunday,
 		make(map[string]interface{}),
 		make(map[string]([]interface{})),
+		-1,
 	}
 }
 
@@ -417,6 +421,7 @@ func (s *Scheduler) Every(interval uint64) *Job {
 	s.size++
 	return job
 }
+
 
 // Run all the jobs that are scheduled to run.
 func (s *Scheduler) RunPending() {
